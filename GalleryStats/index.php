@@ -8,7 +8,7 @@ if(isset($_GET['GalleryName'])) {
 	$galname=$_GET['GalleryName'];
 	
 	$link = getDBLink();
-	$query_str = "CALL GetGalPictures('".$galname."');";
+	$query_str = "CALL GalleryRating('".$galname."');";
 	$query = $link->query($query_str,MYSQLI_USE_RESULT);
 	$result= [];
 	if (!$query) {
@@ -16,19 +16,23 @@ if(isset($_GET['GalleryName'])) {
 	}
 	else {
 		while ($row = $query->fetch_assoc()) {
-			$picDesc = new stdClass();
-			$picDesc->Name = $row['Name'];
-			$picDesc->URL = $row['URL'];
-			$picDesc->Caption = $row['Caption'];
-			array_push($result,$picDesc);
+			$picRating = new stdClass();
+			$picRating->Name = $row['Name'];		
+			$picRating->Caption = $row['Caption'];
+			$picRating->Wins = $row['wins'];
+			$picRating->Loses = $row['loses'];
+			$picRating->WinRate = $row['win_rate'];
+			$picRating->GalWinPortion = $row['gal_win_rate'];
+			$picRating->GalLosePortion = $row['gal_lose_rate'];
+			array_push($result,$picRating);
 		};
 
 		$query->free();
 		$link->close();
-		
+	
 		echo json_encode($result);
 		header('Content-Type: application/json');
-		http_response_code(200);	
+		http_response_code(200);
 	}
 }
 else

@@ -12,7 +12,7 @@ $userSig=$_GET['userSig'];
 $voteSig=$_GET['voteSig'];
 
 $link = getDBLink();
-$query_str = "CALL Vote('".$votername."','".$userSig."','".$galname."',".$picWin.",".$picLose.",'".$voteSig."');";
+$query_str = "CALL Vote('".$votername."','".$userSig."','".$galname."','".$picWin."','".$picLose."','".$voteSig."');";
 $query = $link->query($query_str,MYSQLI_USE_RESULT);
 #$result= [];
 if (!$query) {
