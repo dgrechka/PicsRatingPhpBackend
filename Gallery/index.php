@@ -1,6 +1,6 @@
 <?php
 header('Access-Control-Allow-Credentials: true');
-header('Access-Control-Allow-Origin: http://itis.cs.msu.ru');
+header('Access-Control-Allow-Origin: *');
 require_once "../config.inc.php";
 require_once "../utils.inc.php";
 

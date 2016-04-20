@@ -1,6 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
+CREATE DATABASE  IF NOT EXISTS `PicsRating` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `PicsRating`;
+-- MySQL dump 10.13  Distrib 5.6.17, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: PicsRating
+-- Host: cube.home.dgrechka.net    Database: PicsRating
 -- ------------------------------------------------------
 -- Server version	5.5.46-log
 
@@ -28,7 +30,7 @@ CREATE TABLE `Galleries` (
   `Description` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`GalleryID`),
   UNIQUE KEY `Name_UNIQUE` (`Name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,7 +64,7 @@ CREATE TABLE `Pics` (
   `Name` varchar(45) NOT NULL,
   PRIMARY KEY (`PicID`),
   UNIQUE KEY `Name_UNIQUE` (`Name`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -78,7 +80,7 @@ CREATE TABLE `Voter` (
   `VoterSignature` char(30) DEFAULT NULL,
   PRIMARY KEY (`VoterID`),
   UNIQUE KEY `name_sig_unique` (`Name`,`VoterSignature`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -106,7 +108,7 @@ CREATE TABLE `Votes` (
   CONSTRAINT `Votes_losePicID` FOREIGN KEY (`losePicID`) REFERENCES `Pics` (`PicID`) ON UPDATE CASCADE,
   CONSTRAINT `Votes_voterID` FOREIGN KEY (`VoterID`) REFERENCES `Voter` (`VoterID`) ON UPDATE CASCADE,
   CONSTRAINT `Votes_winPicID` FOREIGN KEY (`winPicID`) REFERENCES `Pics` (`PicID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=138 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,6 +189,7 @@ BEGIN
     SELECT
 		p.Name,
 		p.Caption,
+        p.URL,
         (SELECT COUNT(*) FROM Votes WHERE quality=0 AND GalleryID=gal_id AND winPicID=p.PicID) wins,
         (SELECT COUNT(*) FROM Votes WHERE quality=0 AND GalleryID=gal_id AND losePicID=p.PicID) loses,
         (SELECT COUNT(*) FROM Votes WHERE quality=0 AND GalleryID=gal_id AND winPicID=p.PicID)
@@ -228,7 +231,7 @@ BEGIN
 		SET MESSAGE_TEXT = 'The gallery specified does not exist';
 		END IF;
         
-        SELECT p.Name Name,p.Caption Caption, p.URL URL FROM GalleryPics gp INNER JOIN Pics p ON gp.PicID=p.PicID;
+        SELECT p.Name Name,p.Caption Caption, p.URL URL FROM GalleryPics gp INNER JOIN Pics p ON gp.PicID=p.PicID WHERE gp.GallID=gal_id;
     COMMIT;
 END ;;
 DELIMITER ;
@@ -318,4 +321,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-04-19 20:21:37
+-- Dump completed on 2016-04-20 22:50:09

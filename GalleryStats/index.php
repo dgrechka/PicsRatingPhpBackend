@@ -1,6 +1,6 @@
 <?php
 header('Access-Control-Allow-Credentials: true');
-header('Access-Control-Allow-Origin: http://itis.cs.msu.ru');
+header('Access-Control-Allow-Origin: *');
 require_once "../config.inc.php";
 require_once "../utils.inc.php";
 
@@ -19,7 +19,8 @@ if(isset($_GET['GalleryName'])) {
 			$picRating = new stdClass();
 			$picRating->Name = $row['Name'];		
 			$picRating->Caption = $row['Caption'];
-			$picRating->Wins = $row['wins'];
+			$picRating->URL = $row['URL'];
+			$picRating->Wins = $row['wins'];			
 			$picRating->Loses = $row['loses'];
 			$picRating->WinRate = $row['win_rate'];
 			$picRating->GalWinPortion = $row['gal_win_rate'];
